@@ -1,33 +1,26 @@
+import { Telegraf } from 'telegraf';
+
 export default {
   async fetch(request, env) {
-    if (request.method === 'POST') {
-      const payload = await request.json();
-
-      if (payload.message && payload.message.text) {
-        const chatId = payload.message.chat.id;
-        const text = payload.message.text;
-
-        if (text === '/start') {
-          return await sendMessage(chatId, 'Hello! I am your Telegram bot running on Cloudflare Workers. 🚀', env.BOT_TOKEN);
-        } else {
-          return await sendMessage(chatId, `You said: ${text}`, env.BOT_TOKEN);
-        }
-      }
+    if (request.method !== 'POST') {
+      return new Response('Method Not Allowed', { status: 405 });
     }
-    return new Response('OK');
+
+    const bot = new Telegraf(env.BOT_TOKEN);
+
+    // Basic /start command
+    bot.start((ctx) => ctx.reply('Hello! I am your Telegram bot powered by Telegraf on Cloudflare Workers. 🚀'));
+
+    // Echo handler
+    bot.on('text', (ctx) => ctx.reply(`You said: ${ctx.message.text}`));
+
+    try {
+      const body = await request.json();
+      await bot.handleUpdate(body);
+      return new Response('OK');
+    } catch (err) {
+      console.error(err);
+      return new Response('Error', { status: 500 });
+    }
   }
 };
-
-async function sendMessage(chatId, text, botToken) {
-  const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: text,
-      parse_mode: 'Markdown'
-    })
-  });
-  return response;
-}
