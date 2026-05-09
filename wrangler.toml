@@ -6,4 +6,4 @@ compatibility_flags = ["nodejs_compat"]
 [vars]
 # BOT_TOKEN should be set via environment variables or wrangler secrets for security.
 # But for development, you can add it here (not recommended for production).
-BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"
+BOT_TOKEN = "7893868461:AAHX_mUOHfUJttAJwd2kJZsfBJPC6M4UyJo"
