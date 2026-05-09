@@ -1,6 +1,0 @@
-{
-  "name": "Cloudflare TG Bot Starter",
-  "description": "A Telegram bot starter kit for Cloudflare Workers with a setup dashboard.",
-  "requestFramePermissions": [],
-  "majorCapabilities": []
-}
