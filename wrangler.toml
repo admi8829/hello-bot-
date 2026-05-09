@@ -1,0 +1,8 @@
+name = "tg-bot-worker"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+# BOT_TOKEN should be set via environment variables or wrangler secrets for security.
+# But for development, you can add it here (not recommended for production).
+BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"
